@@ -39,7 +39,6 @@ services:
     depends_on:
       - mysql
       - redis
-      - influxdb
       - apipark-nsq
 
   mysql:
@@ -84,26 +83,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
-
-  influxdb:
-    image: registry.lazycat.cloud/lee/library/influxdb:36de52d2217a8b26
-    environment:
-      - TZ=Asia/Shanghai
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      # influxd onboard rejects passwords > 72 chars; stable_secret yields 128 hex.
-      - DOCKER_INFLUXDB_INIT_PASSWORD=apipark-influx-admin-2026
-      - DOCKER_INFLUXDB_INIT_ORG=apipark
-      - DOCKER_INFLUXDB_INIT_BUCKET=apinto
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN={{stable_secret "INFLUXDB_TOKEN"}}
-    binds:
-      - /lzcapp/var/influxdb:/var/lib/influxdb2
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8086/health"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
 
   apipark-nsq:
     # Image bakes ENV NSQ_ADDR=apipark-nsq:4150, so the service hostname

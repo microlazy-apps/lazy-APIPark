@@ -32,8 +32,8 @@ description:
     依赖（已内置）
     - MySQL 8.0（应用元数据）
     - Redis 7（缓存与会话）
-    - InfluxDB 2.7（调用指标）
-    数据持久化到 /lzcapp/var/{mysql,redis,influxdb,logs}。
+    - NSQ（异步消息队列）
+    数据持久化到 /lzcapp/var/{mysql,redis,nsq,logs}。
 
     上游项目（Apache-2.0）：https://github.com/APIParkLab/APIPark
     本仓库（懒猫包装）：https://github.com/microlazy-apps/lazy-APIPark
@@ -55,8 +55,8 @@ description:
     Built-in dependencies
     - MySQL 8.0 (application metadata)
     - Redis 7 (cache / sessions)
-    - InfluxDB 2.7 (call metrics)
-    Data persists at /lzcapp/var/{mysql,redis,influxdb,logs}.
+    - NSQ (async messaging)
+    Data persists at /lzcapp/var/{mysql,redis,nsq,logs}.
 
     Upstream project (Apache-2.0): https://github.com/APIParkLab/APIPark
     This wrapper repo: https://github.com/microlazy-apps/lazy-APIPark

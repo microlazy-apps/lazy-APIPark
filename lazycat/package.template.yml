@@ -18,12 +18,12 @@ locales:
 
       ## 资源占用
       - 推荐配置：≥ 2 核 CPU，≥ 3GB 内存
-      - 自带 MySQL 8 / Redis 7 / InfluxDB 2.7 三个内置存储
+      - 自带 MySQL 8 / Redis 7 / NSQ 三个内置依赖
 
       ## 数据持久化
       - MySQL 数据：/lzcapp/var/mysql
       - Redis 数据：/lzcapp/var/redis
-      - InfluxDB 数据：/lzcapp/var/influxdb
+      - NSQ 队列：/lzcapp/var/nsq
       - APIPark 日志：/lzcapp/var/logs
 
       ## 上游 / 重打包说明
@@ -42,12 +42,12 @@ locales:
 
       ## Resource requirements
       - Recommended: ≥ 2 vCPU, ≥ 3 GB RAM
-      - Bundles MySQL 8 / Redis 7 / InfluxDB 2.7 internally
+      - Bundles MySQL 8 / Redis 7 / NSQ internally
 
       ## Persistent data
       - MySQL data:    /lzcapp/var/mysql
       - Redis data:    /lzcapp/var/redis
-      - InfluxDB data: /lzcapp/var/influxdb
+      - NSQ queue:     /lzcapp/var/nsq
       - APIPark logs:  /lzcapp/var/logs
 
       ## Upstream / repackaging note
