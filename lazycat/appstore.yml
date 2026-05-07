@@ -8,9 +8,9 @@ support_mobile: false
 
 screenshots:
   pc:
-    - lazycat/screenshots/01-overview.png
-    - lazycat/screenshots/02-ai-services.png
-    - lazycat/screenshots/03-portal.png
+    - lazycat/screenshots/01-login.png
+    - lazycat/screenshots/02-dashboard.png
+    - lazycat/screenshots/03-settings.png
   mobile: []
 
 description:
