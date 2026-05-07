@@ -26,8 +26,8 @@ services:
       - ERROR_LOG_LEVEL=info
       - ERROR_EXPIRE=7d
       - ERROR_PERIOD=day
-      # Admin bootstrap
-      - ADMIN_PASSWORD={{.U.ADMIN_PASSWORD}}
+      # Admin bootstrap (default: 12345678 — change it via APIPark UI after first login)
+      - ADMIN_PASSWORD=12345678
     binds:
       - /lzcapp/var/logs:/apipark/work/logs
     healthcheck:

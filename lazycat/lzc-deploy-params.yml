@@ -1,7 +1,0 @@
-params:
-  - id: ADMIN_PASSWORD
-    type: password
-    name: "管理员密码"
-    description: "APIPark admin 账号密码（首次启动时写入；密码字符串建议 ≥ 8 位）"
-    default_value: "admin12345"
-    optional: false
