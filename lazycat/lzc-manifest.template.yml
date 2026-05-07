@@ -34,8 +34,10 @@ services:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8288/api/v1/account/login"]
       interval: 30s
       timeout: 10s
-      retries: 3
-      start_period: 60s
+      retries: 5
+      # apipark waits for mysql in its own entrypoint (up to 10min),
+      # so its TCP-listen can lag the container being marked Up.
+      start_period: 600s
     depends_on:
       - mysql
       - redis
@@ -57,8 +59,9 @@ services:
       test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 --silent || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 10
-      start_period: 30s
+      retries: 30
+      # MySQL 8 first-boot init takes 3-4 min on lazycat boxes.
+      start_period: 300s
 
   redis:
     image: registry.lazycat.cloud/lee/library/redis:5213762bb18e770c

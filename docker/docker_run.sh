@@ -58,13 +58,18 @@ wait_for_port() {
   port=$2
   label=$3
   attempts=0
+  # MySQL 8 first-boot InnoDB init can take ~4 minutes on lazycat boxes,
+  # so the budget here is 10 minutes (300 attempts × 2s). Quiet down
+  # after the first 15 attempts so the log stays readable.
   while ! nc -z "$host" "$port" >/dev/null 2>&1; do
     attempts=$((attempts + 1))
-    if [ "$attempts" -ge 60 ]; then
-      echo "[entrypoint] giving up waiting for $label ($host:$port) after 60 attempts"
+    if [ "$attempts" -ge 300 ]; then
+      echo "[entrypoint] giving up waiting for $label ($host:$port) after 300 attempts"
       exit 1
     fi
-    echo "[entrypoint] waiting for $label ($host:$port)... attempt $attempts"
+    if [ "$attempts" -le 15 ] || [ $((attempts % 15)) -eq 0 ]; then
+      echo "[entrypoint] waiting for $label ($host:$port)... attempt $attempts"
+    fi
     sleep 2
   done
   echo "[entrypoint] $label ($host:$port) is ready"
