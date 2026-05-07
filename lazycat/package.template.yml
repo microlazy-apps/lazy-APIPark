@@ -1,0 +1,56 @@
+package: cloud.lazycat.app.apipark
+version: ${VERSION}
+name: APIPark
+description: 云原生 AI&API 网关，统一管理 100+ 大模型 API
+author: APIParkLab
+license: Apache-2.0
+homepage: https://github.com/microlazy-apps/lazy-APIPark
+locales:
+  zh-CN:
+    name: APIPark
+    description: 开源云原生 AI 网关与 API 开发者门户。统一接入 OpenAI / Claude / Gemini / DeepSeek / 通义千问 / 文心一言等 100+ 主流大模型，标准化请求与返回，集中管理 API 申请、审批、配额、统计与多模型灾备。
+    usage: |
+      ## 首次使用
+      1. 安装时设置管理员密码（admin 账号，默认 12345678，建议修改）
+      2. 安装完成后访问应用，使用 admin / 你设置的密码 登录
+      3. 在「AI 服务」中接入你的 OpenAI / Claude / DeepSeek 等 LLM 凭证
+      4. 把模型 + 提示词组合成 REST API，发布到团队开发者门户
+
+      ## 资源占用
+      - 推荐配置：≥ 2 核 CPU，≥ 3GB 内存
+      - 自带 MySQL 8 / Redis 7 / InfluxDB 2.7 三个内置存储
+
+      ## 数据持久化
+      - MySQL 数据：/lzcapp/var/mysql
+      - Redis 数据：/lzcapp/var/redis
+      - InfluxDB 数据：/lzcapp/var/influxdb
+      - APIPark 日志：/lzcapp/var/logs
+
+      ## 上游 / 重打包说明
+      上游项目（Apache-2.0）：https://github.com/APIParkLab/APIPark
+      本仓库（懒猫包装）：https://github.com/microlazy-apps/lazy-APIPark
+      仅做重打包，不修改 APIPark 源码与镜像。
+  en:
+    name: APIPark
+    description: Open-source cloud-native AI gateway and API developer portal. Unifies 100+ AI models (OpenAI, Claude, Gemini, DeepSeek, Qwen, ...) behind one standardized API and ships built-in approval, quota, observability, and multi-model failover.
+    usage: |
+      ## Getting Started
+      1. Set the admin password during install (admin account, default 12345678 — change it)
+      2. After install, open the app and sign in as `admin`
+      3. Add your LLM credentials under "AI Services" (OpenAI / Claude / DeepSeek / ...)
+      4. Compose a model + prompt into a REST API and publish it to your team portal
+
+      ## Resource requirements
+      - Recommended: ≥ 2 vCPU, ≥ 3 GB RAM
+      - Bundles MySQL 8 / Redis 7 / InfluxDB 2.7 internally
+
+      ## Persistent data
+      - MySQL data:    /lzcapp/var/mysql
+      - Redis data:    /lzcapp/var/redis
+      - InfluxDB data: /lzcapp/var/influxdb
+      - APIPark logs:  /lzcapp/var/logs
+
+      ## Upstream / repackaging note
+      Upstream project (Apache-2.0): https://github.com/APIParkLab/APIPark
+      This wrapper repo: https://github.com/microlazy-apps/lazy-APIPark
+      No source modification — this wrapper just retags the upstream image.

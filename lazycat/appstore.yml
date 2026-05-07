@@ -1,0 +1,62 @@
+source: https://github.com/APIParkLab/APIPark
+source_author: APIParkLab
+is_original: false
+keywords: ai-gateway,api-gateway,llm,openai,claude,gemini,deepseek,api-management,developer-portal,apinto
+
+support_pc: true
+support_mobile: false
+
+screenshots:
+  pc:
+    - lazycat/screenshots/01-overview.png
+    - lazycat/screenshots/02-ai-services.png
+    - lazycat/screenshots/03-portal.png
+  mobile: []
+
+description:
+  zh-CN: |
+    APIPark 是开源云原生 AI 网关与 API 开发者门户。一个入口统一接入
+    100+ 大模型（OpenAI、Claude、Gemini、DeepSeek、通义千问、文心一言、
+    讯飞星火、智谱 ChatGLM、字节豆包、腾讯混元等），把模型与提示词
+    打包成 REST API 共享给团队，并提供申请审批、配额、调用统计、
+    多模型灾备、订阅管理等开发者门户能力。
+
+    特性
+    - 100+ AI 模型一键接入，统一请求/返回格式
+    - AI + Prompt 模板组合发布为 REST API
+    - 团队级 API 开发者门户：浏览、申请、订阅、Key 管理
+    - 多租户、多团队、细粒度权限
+    - 调用监控、日志、统计图表
+    - 兼容传统 REST API 网关用法（支持高性能集群）
+
+    依赖（已内置）
+    - MySQL 8.0（应用元数据）
+    - Redis 7（缓存与会话）
+    - InfluxDB 2.7（调用指标）
+    数据持久化到 /lzcapp/var/{mysql,redis,influxdb,logs}。
+
+    上游项目（Apache-2.0）：https://github.com/APIParkLab/APIPark
+    本仓库（懒猫包装）：https://github.com/microlazy-apps/lazy-APIPark
+  en: |
+    APIPark is an open-source cloud-native AI gateway and API developer
+    portal. It connects 100+ AI models (OpenAI, Claude, Gemini, DeepSeek,
+    Qwen, ChatGLM, ...) behind one standardized API, lets you compose
+    model + prompt templates into REST APIs, and ships an approval,
+    quota, monitoring, and subscription portal on top.
+
+    Features
+    - One-click access to 100+ AI models, unified request/response format
+    - Compose AI + prompt templates into REST APIs
+    - Team-grade API developer portal (browse, apply, subscribe, manage keys)
+    - Multi-tenant, fine-grained permissions
+    - Call monitoring, logs, statistics dashboards
+    - Doubles as a traditional high-performance REST API gateway
+
+    Built-in dependencies
+    - MySQL 8.0 (application metadata)
+    - Redis 7 (cache / sessions)
+    - InfluxDB 2.7 (call metrics)
+    Data persists at /lzcapp/var/{mysql,redis,influxdb,logs}.
+
+    Upstream project (Apache-2.0): https://github.com/APIParkLab/APIPark
+    This wrapper repo: https://github.com/microlazy-apps/lazy-APIPark

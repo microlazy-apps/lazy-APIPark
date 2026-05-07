@@ -1,0 +1,106 @@
+application:
+  subdomain: apipark
+  upstreams:
+    - location: /
+      backend: http://main:8288
+  public_path:
+    - /
+
+services:
+  main:
+    image: ${LAZYCAT_IMAGE}
+    environment:
+      - TZ=Asia/Shanghai
+      # MySQL
+      - MYSQL_IP=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DB=apipark
+      - MYSQL_USER_NAME=root
+      - MYSQL_PWD={{stable_secret "MYSQL_ROOT_PASSWORD"}}
+      # Redis
+      - REDIS_ADDR=redis:6379
+      - REDIS_PWD={{stable_secret "REDIS_PASSWORD"}}
+      # Logging
+      - ERROR_DIR=work/logs
+      - ERROR_FILE_NAME=error.log
+      - ERROR_LOG_LEVEL=info
+      - ERROR_EXPIRE=7d
+      - ERROR_PERIOD=day
+      # Admin bootstrap
+      - ADMIN_PASSWORD={{.U.ADMIN_PASSWORD}}
+    binds:
+      - /lzcapp/var/logs:/apipark/work/logs
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8288/api/v1/account/login"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    depends_on:
+      - mysql
+      - redis
+      - influxdb
+
+  mysql:
+    image: registry.lazycat.cloud/lee/library/mysql:af58d7dde530c490
+    command: >
+      mysqld
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    environment:
+      - TZ=Asia/Shanghai
+      - MYSQL_ROOT_PASSWORD={{stable_secret "MYSQL_ROOT_PASSWORD"}}
+      - MYSQL_DATABASE=apipark
+    binds:
+      - /lzcapp/var/mysql:/var/lib/mysql
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysqladmin ping -uroot -p"$$MYSQL_ROOT_PASSWORD"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  redis:
+    image: registry.lazycat.cloud/lee/library/redis:5213762bb18e770c
+    command: >
+      redis-server
+      --protected-mode yes
+      --appendonly no
+      --port 6379
+      --requirepass {{stable_secret "REDIS_PASSWORD"}}
+    environment:
+      - TZ=Asia/Shanghai
+    binds:
+      - /lzcapp/var/redis:/data
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - -a
+        - '{{stable_secret "REDIS_PASSWORD"}}'
+        - ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  influxdb:
+    image: registry.lazycat.cloud/lee/library/influxdb:36de52d2217a8b26
+    environment:
+      - TZ=Asia/Shanghai
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD={{stable_secret "INFLUXDB_PASSWORD"}}
+      - DOCKER_INFLUXDB_INIT_ORG=apipark
+      - DOCKER_INFLUXDB_INIT_BUCKET=apinto
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN={{stable_secret "INFLUXDB_TOKEN"}}
+    binds:
+      - /lzcapp/var/influxdb:/var/lib/influxdb2
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8086/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
