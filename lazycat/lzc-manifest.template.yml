@@ -40,6 +40,7 @@ services:
       - mysql
       - redis
       - influxdb
+      - apipark-nsq
 
   mysql:
     image: registry.lazycat.cloud/lee/library/mysql:af58d7dde530c490
@@ -54,9 +55,7 @@ services:
     binds:
       - /lzcapp/var/mysql:/var/lib/mysql
     healthcheck:
-      test:
-        - CMD-SHELL
-        - mysqladmin ping -uroot -p"$$MYSQL_ROOT_PASSWORD"
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 --silent || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 10
@@ -92,7 +91,8 @@ services:
       - TZ=Asia/Shanghai
       - DOCKER_INFLUXDB_INIT_MODE=setup
       - DOCKER_INFLUXDB_INIT_USERNAME=admin
-      - DOCKER_INFLUXDB_INIT_PASSWORD={{stable_secret "INFLUXDB_PASSWORD"}}
+      # influxd onboard rejects passwords > 72 chars; stable_secret yields 128 hex.
+      - DOCKER_INFLUXDB_INIT_PASSWORD=apipark-influx-admin-2026
       - DOCKER_INFLUXDB_INIT_ORG=apipark
       - DOCKER_INFLUXDB_INIT_BUCKET=apinto
       - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN={{stable_secret "INFLUXDB_TOKEN"}}
@@ -104,3 +104,19 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+
+  apipark-nsq:
+    # Image bakes ENV NSQ_ADDR=apipark-nsq:4150, so the service hostname
+    # must match exactly.
+    image: registry.lazycat.cloud/lee/nsqio/nsq:1c9fb20069f23c53
+    command: /nsqd --data-path=/data
+    environment:
+      - TZ=Asia/Shanghai
+    binds:
+      - /lzcapp/var/nsq:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:4151/ping || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
