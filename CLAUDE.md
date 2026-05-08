@@ -2,6 +2,15 @@
 
 懒猫微服 lpk wrapper for [APIParkLab/APIPark](https://github.com/APIParkLab/APIPark).
 
+## Lazycat appstore identifiers
+
+- **package id**: `cloud.lazycat.app.apipark`
+- **app_id**: `5348` (recorded 2026-05-08)
+- **subdomain**: `apipark` → `https://apipark.<box-domain>`
+- **bootstrap workflow**: when re-running `bootstrap-app.yml` to
+  resubmit a fix, pass `app_id=5348` so the workflow skips
+  `/app/create` (which would 500 on duplicate package).
+
 ## Architecture
 
 **Retag-only main image + 3 pre-mirrored dependencies** (multi-service stack).
